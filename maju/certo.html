@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maju Nobile Beauty</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:       #F8F1E8;
+    --surface:  #F0E6D8;
+    --surface2: #E8D9C6;
+    --brown:    #7A4528;
+    --brown-lt: #9B5E3A;
+    --brown-dim:rgba(122,69,40,0.1);
+    --brown-ln: rgba(122,69,40,0.22);
+    --text:     #2C1A0E;
+    --text-mid: rgba(44,26,14,0.72);
+    --text-dim: rgba(44,26,14,0.50);
+    --border:   rgba(122,69,40,0.16);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif; font-weight:300; font-size:15px; line-height:1.75; }
+
+  /* ── PAGES ── */
+  .page { display:none; min-height:100vh; }
+  .page.active { display:block; }
+
+  /* ── NAV ── */
+  nav {
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    background:rgba(248,241,232,0.93); backdrop-filter:blur(16px);
+    border-bottom:3px solid var(--brown);
+    padding:0 48px; display:flex; align-items:center; justify-content:space-between; height:68px;
+  }
+  .nav-logo {
+    font-family:'Cormorant Garamond',serif; font-size:1.15rem; font-weight:400;
+    letter-spacing:0.2em; color:var(--brown); text-decoration:none; text-transform:uppercase;
+    cursor:pointer;
+  }
+  .nav-links { display:flex; gap:36px; list-style:none; }
+  .nav-links a {
+    text-decoration:none; color:var(--text-mid);
+    font-size:0.75rem; letter-spacing:0.12em; text-transform:uppercase; transition:color 0.2s; cursor:pointer;
+  }
+  .nav-links a:hover { color:var(--brown); }
+  .nav-cta { border:1.5px solid var(--brown) !important; color:var(--brown) !important; padding:7px 20px; border-radius:2px; }
+  .nav-cta:hover { background:var(--brown-dim) !important; }
+  .nav-back {
+    display:flex; align-items:center; gap:8px; cursor:pointer;
+    color:var(--text-mid); font-size:0.75rem; letter-spacing:0.12em; text-transform:uppercase; transition:color 0.2s;
+  }
+  .nav-back:hover { color:var(--brown); }
+  .nav-back::before { content:'←'; font-size:1rem; }
+  .nav-hamburger { display:none; background:none; border:none; cursor:pointer; padding:4px; }
+  .nav-hamburger span { display:block; width:22px; height:1.5px; background:var(--brown); margin:6px 0; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height:100vh; display:flex; align-items:center;
+    padding:100px 48px 60px; background:var(--bg); position:relative; overflow:hidden;
+  }
+  .hero::before {
+    content:''; position:absolute; top:0; right:0; width:340px; bottom:0;
+    background:var(--brown); clip-path:polygon(18% 0,100% 0,100% 100%,0% 100%); opacity:0.08; pointer-events:none;
+  }
+  .hero-inner { max-width:1000px; margin:0 auto; width:100%; display:grid; grid-template-columns:1.1fr 0.9fr; gap:80px; align-items:center; }
+  .hero-eyebrow { display:flex; align-items:center; gap:12px; font-size:0.7rem; letter-spacing:0.25em; text-transform:uppercase; color:var(--brown); margin-bottom:24px; }
+  .hero-eyebrow::before { content:''; width:32px; height:1.5px; background:var(--brown); }
+  .hero-name { font-family:'Cormorant Garamond',serif; font-size:clamp(3.2rem,7vw,5.2rem); font-weight:300; line-height:0.95; color:var(--text); margin-bottom:6px; }
+  .hero-name em { font-style:italic; color:var(--brown); display:block; }
+  .hero-tag { font-size:0.72rem; letter-spacing:0.22em; text-transform:uppercase; color:var(--text-dim); margin-bottom:28px; margin-top:8px; }
+  .hero-desc { font-size:0.97rem; color:var(--text-mid); max-width:380px; line-height:1.85; margin-bottom:40px; }
+  .hero-btns { display:flex; gap:14px; flex-wrap:wrap; }
+  .btn-brown { display:inline-block; background:var(--brown); color:#fff; padding:14px 34px; text-decoration:none; font-size:0.75rem; letter-spacing:0.16em; text-transform:uppercase; font-weight:500; border-radius:2px; transition:background 0.25s; cursor:pointer; border:none; }
+  .btn-brown:hover { background:var(--brown-lt); }
+  .btn-ghost { display:inline-block; border:1.5px solid var(--brown); color:var(--brown); padding:13px 28px; text-decoration:none; font-size:0.75rem; letter-spacing:0.16em; text-transform:uppercase; border-radius:2px; transition:all 0.25s; cursor:pointer; background:none; }
+  .btn-ghost:hover { background:var(--brown-dim); }
+  .hero-card { background:var(--surface); border:1px solid var(--border); border-top:3px solid var(--brown); border-radius:2px; padding:36px 32px; }
+  .hero-card-label { font-size:0.65rem; letter-spacing:0.25em; text-transform:uppercase; color:var(--brown); margin-bottom:22px; }
+  .hero-hours-row { display:flex; justify-content:space-between; align-items:center; padding:11px 0; border-bottom:1px solid var(--border); font-size:0.88rem; }
+  .hero-hours-row:last-child { border-bottom:none; }
+  .hero-hours-day { color:var(--text-mid); }
+  .hero-hours-time { color:var(--text); }
+  .hero-divider { height:1px; background:var(--border); margin:22px 0; }
+  .hero-pay-label { font-size:0.65rem; letter-spacing:0.25em; text-transform:uppercase; color:var(--brown); margin-bottom:12px; }
+  .hero-pay-chips { display:flex; gap:8px; flex-wrap:wrap; }
+  .pay-chip { border:1px solid var(--brown-ln); color:var(--text-mid); padding:4px 12px; border-radius:20px; font-size:0.74rem; }
+
+  /* ── SECTION SHELL ── */
+  section { padding:100px 48px; }
+  .section-inner { max-width:1000px; margin:0 auto; }
+  .section-eyebrow { display:flex; align-items:center; gap:12px; font-size:0.7rem; letter-spacing:0.25em; text-transform:uppercase; color:var(--brown); margin-bottom:14px; }
+  .section-eyebrow::before { content:''; width:24px; height:1.5px; background:var(--brown); }
+  .section-title { font-family:'Cormorant Garamond',serif; font-size:clamp(2.2rem,4.5vw,3.2rem); font-weight:300; line-height:1.1; margin-bottom:52px; color:var(--text); }
+  .section-title em { font-style:italic; color:var(--brown); }
+
+  /* ── ABOUT ── */
+  .about { background:var(--surface); border-top:4px solid var(--brown); }
+  .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:start; }
+  .about-text p { color:var(--text-mid); margin-bottom:18px; font-size:0.95rem; }
+  .about-quote { font-family:'Cormorant Garamond',serif; font-size:1.55rem; font-style:italic; font-weight:300; color:var(--brown); line-height:1.5; border-left:3px solid var(--brown); padding-left:24px; margin:30px 0; }
+  .about-info-block { background:var(--bg); border:1px solid var(--border); border-top:3px solid var(--brown); border-radius:2px; padding:28px; margin-bottom:20px; }
+  .about-info-row { display:flex; gap:12px; align-items:flex-start; margin-bottom:14px; font-size:0.88rem; color:var(--text-mid); }
+  .about-info-row:last-child { margin-bottom:0; }
+  .about-info-icon { color:var(--brown); flex-shrink:0; }
+  .about-pills-label { font-size:0.65rem; letter-spacing:0.22em; text-transform:uppercase; color:var(--brown); margin-bottom:14px; }
+  .about-pills { display:flex; flex-wrap:wrap; gap:8px; }
+  .about-pill { border:1px solid var(--brown-ln); color:var(--text-mid); padding:5px 16px; border-radius:2px; font-size:0.78rem; transition:all 0.2s; }
+  .about-pill:hover { border-color:var(--brown); color:var(--brown); }
+
+  /* ── PLANS ── */
+  .plans { background:var(--surface); border-top:4px solid var(--brown); }
+  .plans-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; }
+  .plan-card { background:var(--bg); padding:44px 36px; border:1px solid var(--border); transition:border-color 0.25s; }
+  .plan-card:hover { border-color:var(--brown-ln); }
+  .plan-card.featured { border-top:4px solid var(--brown); background:var(--surface2); }
+  .plan-badge { font-size:0.65rem; letter-spacing:0.22em; text-transform:uppercase; color:var(--text-dim); margin-bottom:18px; }
+  .plan-card.featured .plan-badge { color:var(--brown); }
+  .plan-name { font-family:'Cormorant Garamond',serif; font-size:2.4rem; font-weight:300; color:var(--text); margin-bottom:6px; }
+  .plan-price { font-size:2.4rem; font-weight:500; color:var(--brown); margin-bottom:4px; line-height:1; }
+  .plan-period { font-size:0.78rem; color:var(--text-dim); margin-bottom:30px; }
+  .plan-items { list-style:none; }
+  .plan-items li { font-size:0.88rem; padding:10px 0; border-bottom:1px solid var(--border); color:var(--text-mid); display:flex; align-items:center; gap:10px; }
+  .plan-items li::before { content:'—'; color:var(--brown); font-size:0.7rem; flex-shrink:0; }
+  .plan-items li:last-child { border-bottom:none; }
+  .plan-note { font-size:0.74rem; color:var(--text-dim); margin-top:22px; }
+
+  /* ── POLICY ── */
+  .policy { background:var(--bg); }
+  .policy-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:2px; }
+  .policy-card { background:var(--surface); padding:36px 32px; border:1px solid var(--border); border-top:3px solid var(--brown); }
+  .policy-num { font-family:'Cormorant Garamond',serif; font-size:3rem; font-weight:300; color:var(--brown); opacity:0.35; line-height:1; margin-bottom:14px; }
+  .policy-title { font-size:0.88rem; font-weight:500; letter-spacing:0.06em; color:var(--text); margin-bottom:10px; }
+  .policy-text { font-size:0.88rem; color:var(--text-mid); line-height:1.8; }
+
+  /* ── CONTACT ── */
+  .contact { background:var(--brown); }
+  .contact .section-title { color:#fff; }
+  .contact .section-title em { color:#F5D9BF; }
+  .contact .section-eyebrow { color:#F5D9BF; }
+  .contact .section-eyebrow::before { background:#F5D9BF; }
+  .contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:start; }
+  .contact-info-item { margin-bottom:30px; }
+  .contact-info-label { font-size:0.65rem; letter-spacing:0.25em; text-transform:uppercase; color:#F5D9BF; margin-bottom:8px; }
+  .contact-info-value { font-size:0.93rem; color:rgba(255,255,255,0.85); line-height:1.8; }
+  .contact-info-value a { color:#F5D9BF; text-decoration:none; }
+  .contact-info-value a:hover { color:#fff; }
+  .contact-btns { display:flex; gap:14px; flex-wrap:wrap; margin-bottom:36px; }
+  .btn-light { display:inline-block; background:#fff; color:var(--brown); padding:14px 34px; text-decoration:none; font-size:0.75rem; letter-spacing:0.16em; text-transform:uppercase; font-weight:500; border-radius:2px; transition:background 0.25s; }
+  .btn-light:hover { background:#F5D9BF; }
+  .btn-ghost-light { display:inline-block; border:1.5px solid rgba(255,255,255,0.5); color:#fff; padding:13px 28px; text-decoration:none; font-size:0.75rem; letter-spacing:0.16em; text-transform:uppercase; border-radius:2px; transition:all 0.25s; }
+  .btn-ghost-light:hover { border-color:#fff; background:rgba(255,255,255,0.1); }
+  .contact .pay-chip { border-color:rgba(255,255,255,0.25); color:rgba(255,255,255,0.7); }
+  .footer-bar { margin-top:72px; padding-top:28px; border-top:1px solid rgba(255,255,255,0.2); display:flex; justify-content:space-between; align-items:center; font-size:0.74rem; color:rgba(255,255,255,0.45); }
+  .footer-logo { font-family:'Cormorant Garamond',serif; font-size:1rem; letter-spacing:0.18em; text-transform:uppercase; color:#F5D9BF; }
+
+  /* ── SERVIÇOS PAGE ── */
+  .page-header { padding:110px 48px 60px; background:var(--surface); border-bottom:4px solid var(--brown); }
+  .page-header-inner { max-width:1000px; margin:0 auto; }
+  .page-eyebrow { display:flex; align-items:center; gap:12px; font-size:0.7rem; letter-spacing:0.25em; text-transform:uppercase; color:var(--brown); margin-bottom:14px; }
+  .page-eyebrow::before { content:''; width:24px; height:1.5px; background:var(--brown); }
+  .page-title { font-family:'Cormorant Garamond',serif; font-size:clamp(2.5rem,5vw,4rem); font-weight:300; line-height:1.05; color:var(--text); }
+  .page-title em { font-style:italic; color:var(--brown); }
+  .page-subtitle { font-size:0.95rem; color:var(--text-mid); margin-top:16px; max-width:500px; }
+  .serv-content { padding:80px 48px; }
+  .serv-content-inner { max-width:1000px; margin:0 auto; }
+  .categoria { margin-bottom:72px; }
+  .categoria-titulo { font-family:'Cormorant Garamond',serif; font-size:1.8rem; font-weight:400; color:var(--brown); margin-bottom:4px; display:flex; align-items:center; gap:16px; }
+  .categoria-titulo::after { content:''; flex:1; height:1px; background:var(--border); }
+  .categoria-subtitulo { font-size:0.8rem; color:var(--text-dim); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:28px; }
+  .proc-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr)); gap:2px; }
+  .proc-card { background:var(--surface); padding:28px 24px; border-left:3px solid transparent; transition:border-color 0.25s,background 0.25s; }
+  .proc-card:hover { border-left-color:var(--brown); background:var(--surface2); }
+  .proc-nome { font-family:'Cormorant Garamond',serif; font-size:1.35rem; font-weight:400; color:var(--text); margin-bottom:8px; }
+  .proc-desc { font-size:0.85rem; color:var(--text-mid); margin-bottom:14px; line-height:1.75; }
+  .proc-nota { font-size:0.76rem; color:var(--brown); margin-bottom:12px; }
+  .proc-preco { font-size:0.82rem; color:var(--text-dim); }
+
+
+  .proc-card.aura .proc-img {
+    box-shadow:
+      0 0 18px 4px rgba(122,69,40,0.25),
+      0 0 40px 10px rgba(196,158,110,0.15),
+      0 0 70px 20px rgba(248,241,232,0.1);
+    border-radius: 4px;
+    transition: box-shadow 0.4s ease;
+  }
+  .proc-card.aura:hover .proc-img {
+    box-shadow:
+      0 0 24px 6px rgba(122,69,40,0.35),
+      0 0 55px 16px rgba(196,158,110,0.22),
+      0 0 90px 30px rgba(248,241,232,0.15);
+  }
+  .proc-img {
+    width: 100%; height: 200px; object-fit: cover;
+    display: block; margin-bottom: 18px;
+    border-radius: 2px;
+    background: var(--surface2);
+  }
+  .proc-preco .preco { font-size:1.05rem; font-weight:500; color:var(--brown); }
+  .cta-bar { background:var(--brown); padding:60px 48px; text-align:center; }
+  .cta-bar-inner { max-width:600px; margin:0 auto; }
+  .cta-title { font-family:'Cormorant Garamond',serif; font-size:2.2rem; font-weight:300; color:#fff; margin-bottom:12px; }
+  .cta-title em { font-style:italic; color:#F5D9BF; }
+  .cta-sub { font-size:0.9rem; color:rgba(255,255,255,0.7); margin-bottom:32px; }
+
+  /* ── MOBILE ── */
+  @media (max-width:768px) {
+    nav { padding:0 20px; }
+    .nav-links { display:none; }
+    .nav-hamburger { display:block; }
+    .nav-links.open { display:flex; flex-direction:column; position:fixed; top:68px; left:0; right:0; background:rgba(248,241,232,0.98); padding:24px 20px; gap:18px; border-bottom:3px solid var(--brown); }
+    section { padding:64px 20px; }
+    .hero { padding:90px 20px 48px; }
+    .hero-inner { grid-template-columns:1fr; gap:44px; }
+    .hero-card { display:none; }
+    .about-grid { grid-template-columns:1fr; gap:40px; }
+    .plans-grid { grid-template-columns:1fr; }
+    .policy-grid { grid-template-columns:1fr; }
+    .contact-grid { grid-template-columns:1fr; gap:40px; }
+    .footer-bar { flex-direction:column; gap:10px; text-align:center; }
+    .contact-btns { flex-direction:column; }
+    .page-header { padding:90px 20px 48px; }
+    .serv-content { padding:48px 20px; }
+    .cta-bar { padding:48px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-logo" onclick="goTo('home')">Maju Nobile</span>
+  <ul class="nav-links" id="navLinks">
+    <li><a onclick="goTo('home');scroll('sobre')">Sobre</a></li>
+    <li><a onclick="goTo('servicos')">Serviços</a></li>
+    <li><a onclick="goTo('home');scroll('planos')">Planos</a></li>
+    <li><a onclick="goTo('home');scroll('politica')">Políticas</a></li>
+    <li><a href="https://wa.me/5517988154960?text=Olá%20Maju!%20Gostaria%20de%20agendar%20um%20horário%20✨" target="_blank" class="nav-cta">Agendar</a></li>
+  </ul>
+  <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ═══════════════ PÁGINA: HOME ═══════════════ -->
+<div class="page active" id="page-home">
+
+  <section class="hero" id="inicio">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <p class="hero-eyebrow">Beauty Studio · São José do Rio Preto</p>
+        <h1 class="hero-name">Maju<br><em>Nobile</em></h1>
+        <p class="hero-tag">Lash Designer &nbsp;·&nbsp; Nail Designer</p>
+        <p class="hero-desc">Realçando a beleza que existe em você — com técnica, delicadeza e cuidado em cada procedimento.</p>
+        <div class="hero-btns">
+          <a href="https://wa.me/5517988154960?text=Olá%20Maju!%20Gostaria%20de%20agendar%20um%20horário%20✨" target="_blank" class="btn-brown">Agendar pelo WhatsApp</a>
+          <button class="btn-ghost" onclick="goTo('servicos')">Ver serviços</button>
+        </div>
+      </div>
+      <div class="hero-card">
+        <p class="hero-card-label">Horários de atendimento</p>
+        <div class="hero-hours-row"><span class="hero-hours-day">Segunda a Sexta</span><span class="hero-hours-time">08h – 18h</span></div>
+        <div class="hero-hours-row"><span class="hero-hours-day">Sábado</span><span class="hero-hours-time">08h – 14h</span></div>
+        <div class="hero-hours-row"><span class="hero-hours-day">Domingo</span><span class="hero-hours-time" style="color:var(--text-dim)">Fechado</span></div>
+        <div class="hero-divider"></div>
+        <p class="hero-pay-label">Formas de pagamento</p>
+        <div class="hero-pay-chips">
+          <span class="pay-chip">PIX</span><span class="pay-chip">Cartão</span><span class="pay-chip">Dinheiro</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about" id="sobre">
+    <div class="section-inner">
+      <div class="about-grid">
+        <div class="about-text">
+          <p class="section-eyebrow">Sobre mim</p>
+          <h2 class="section-title">Beleza é<br><em>confiança</em></h2>
+          <p>Sou apaixonada por realçar a beleza natural e proporcionar bem-estar às minhas clientes. No meu studio, ofereço um atendimento acolhedor, voltado para cada detalhe, unindo técnica, delicadeza e cuidado em cada procedimento.</p>
+          <blockquote class="about-quote">"Meu propósito é transformar cada atendimento em uma experiência única."</blockquote>
+          <p>Além do meu trabalho como Lash Designer, estou cursando Psicologia — o que me permite ampliar meu olhar para além da estética, entendendo as necessidades emocionais e o autocuidado como parte essencial da autoestima.</p>
+        </div>
+        <div>
+          <div class="about-info-block">
+            <div class="about-info-row"><span class="about-info-icon">📍</span><span>Rua Vera Cruz 686, Nº 23 — Parque Estoril, São José do Rio Preto / SP</span></div>
+            <div class="about-info-row"><span class="about-info-icon">⏰</span><span>Seg–Sex 8h–18h &nbsp;·&nbsp; Sábado 8h–14h</span></div>
+            <div class="about-info-row"><span class="about-info-icon">💳</span><span>PIX · Cartão de crédito e débito · Dinheiro</span></div>
+          </div>
+          <div class="about-info-block">
+            <p class="about-pills-label">Especialidades</p>
+            <div class="about-pills">
+              <span class="about-pill">Lash Design</span><span class="about-pill">Nail Design</span>
+              <span class="about-pill">Sobrancelhas</span><span class="about-pill">Molde F1</span>
+              <span class="about-pill">Brow Lamination</span><span class="about-pill">Nail Art</span>
+              <span class="about-pill">Spa dos Pés</span><span class="about-pill">Estética Facial</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="plans" id="planos">
+    <div class="section-inner">
+      <p class="section-eyebrow">Planos mensais</p>
+      <h2 class="section-title">Cuide-se <em>todo mês</em></h2>
+      <div class="plans-grid">
+        <div class="plan-card">
+          <p class="plan-badge">Plano Bronze</p>
+          <h3 class="plan-name">Bronze</h3>
+          <p class="plan-price">R$ 120</p>
+          <p class="plan-period">válido por 30 dias</p>
+          <ul class="plan-items">
+            <li>4 sessões de manicure</li><li>Esmaltação comum inclusa</li><li>Sessões no mesmo dia</li>
+          </ul>
+          <p class="plan-note">* Planos não são reembolsáveis</p>
+        </div>
+        <div class="plan-card featured">
+          <p class="plan-badge">✦ Mais popular</p>
+          <h3 class="plan-name">Prata</h3>
+          <p class="plan-price">R$ 190</p>
+          <p class="plan-period">válido por 30 dias</p>
+          <ul class="plan-items">
+            <li>4 sessões de manicure</li><li>2 sessões de pedicure</li><li>Esmaltação comum inclusa</li><li>Sessões no mesmo dia</li>
+          </ul>
+          <p class="plan-note">* Planos não são reembolsáveis</p>
+        </div>
+        <div class="plan-card">
+          <p class="plan-badge">Plano Ouro</p>
+          <h3 class="plan-name">Ouro</h3>
+          <p class="plan-price">R$ 257</p>
+          <p class="plan-period">válido por 30 dias</p>
+          <ul class="plan-items">
+            <li>4 sessões de manicure</li><li>4 sessões de pedicure</li><li>Esmaltação comum inclusa</li><li>Sessões no mesmo dia</li>
+          </ul>
+          <p class="plan-note">* Planos não são reembolsáveis</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="policy" id="politica">
+    <div class="section-inner">
+      <p class="section-eyebrow">Política de agendamento</p>
+      <h2 class="section-title">Como <em>funciona</em></h2>
+      <div class="policy-grid">
+        <div class="policy-card"><div class="policy-num">01</div><h3 class="policy-title">Taxa de reserva</h3><p class="policy-text">Os agendamentos são confirmados mediante taxa de 30% de entrada, via PIX ou link de pagamento. O valor é abatido no procedimento final.</p></div>
+        <div class="policy-card"><div class="policy-num">02</div><h3 class="policy-title">Cancelamento e reagendamento</h3><p class="policy-text">Em caso de cancelamento ou reagendamento, comunique com até 48h de antecedência. Sem aviso, o valor da reserva não é reembolsado nem abatido.</p></div>
+        <div class="policy-card"><div class="policy-num">03</div><h3 class="policy-title">Tolerância de atraso</h3><p class="policy-text">Tolerância máxima de 10 minutos. Atrasos superiores serão considerados desistência do horário agendado.</p></div>
+        <div class="policy-card"><div class="policy-num">04</div><h3 class="policy-title">Ambiente exclusivo</h3><p class="policy-text">Para garantir qualidade e foco total no atendimento, pedimos que não tragam acompanhantes. O espaço é exclusivo para clientes agendadas.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contato">
+    <div class="section-inner">
+      <div class="contact-grid">
+        <div>
+          <p class="section-eyebrow">Contato</p>
+          <h2 class="section-title">Agende seu <em>horário</em></h2>
+          <div class="contact-btns">
+            <a href="https://wa.me/5517988154960?text=Olá%20Maju!%20Gostaria%20de%20agendar%20um%20horário%20✨" target="_blank" class="btn-light">Agendar pelo WhatsApp</a>
+            <a href="https://www.instagram.com/majunobilebeauty/" target="_blank" class="btn-ghost-light">Instagram</a>
+          </div>
+          <p class="contact-info-label" style="margin-bottom:10px;">Formas de pagamento</p>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;">
+            <span class="pay-chip">PIX · majunobile@gmail.com</span>
+            <span class="pay-chip">Cartão de Crédito</span>
+            <span class="pay-chip">Cartão de Débito</span>
+            <span class="pay-chip">Dinheiro</span>
+          </div>
+        </div>
+        <div>
+          <div class="contact-info-item">
+            <p class="contact-info-label">Endereço</p>
+            <p class="contact-info-value">Rua Vera Cruz 686, Nº 23<br>Bairro Parque Estoril<br>São José do Rio Preto — SP</p>
+          </div>
+          <div class="contact-info-item">
+            <p class="contact-info-label">Horário de atendimento</p>
+            <p class="contact-info-value">Segunda a Sexta: 8h às 18h<br>Sábado: 8h às 14h</p>
+          </div>
+          <div class="contact-info-item">
+            <p class="contact-info-label">WhatsApp / PIX</p>
+            <p class="contact-info-value"><a href="https://wa.me/5517988154960">(17) 98815-4960</a> &nbsp;·&nbsp; <a href="mailto:majunobile@gmail.com">majunobile@gmail.com</a></p>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bar">
+        <span class="footer-logo">Maju Nobile Beauty</span>
+        <span>© 2026 · Parque Estoril · São José do Rio Preto · SP</span>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /page-home -->
+
+
+<!-- ═══════════════ PÁGINA: SERVIÇOS ═══════════════ -->
+<div class="page" id="page-servicos">
+
+  <div class="page-header">
+    <div class="page-header-inner">
+      <p class="page-eyebrow">Maju Nobile Beauty</p>
+      <h1 class="page-title">Nossos <em>procedimentos</em></h1>
+      <p class="page-subtitle">Conheça todos os serviços disponíveis no studio.</p>
+    </div>
+  </div>
+
+  <div class="serv-content">
+    <div class="serv-content-inner">
+
+      <div class="categoria">
+        <h2 class="categoria-titulo">Extensão de Cílios</h2>
+        <p class="categoria-subtitulo">Lash Design</p>
+        <div class="proc-grid">
+          <div class="proc-card aura"><img class="proc-img" src="imagens/volume-brasileiro.jpg" alt="Volume Brasileiro"><h3 class="proc-nome">Volume Brasileiro</h3><p class="proc-desc">Cílios cheios e alinhados, realçando o olhar com naturalidade e elegância, mantendo efeito leve e sofisticado.</p><p class="proc-nota">✦ Preto e marrom</p><div class="proc-preco">Aplicação <span class="preco">R$ 170</span> · Manutenção <span class="preco">R$ 110</span> <em style="font-size:0.74rem;color:var(--text-dim)">(20 dias)</em></div></div>
+          <div class="proc-card aura"><img class="proc-img" src="imagens/volume-5d.jpg" alt="Volume 5D"><h3 class="proc-nome">Volume 5D</h3><p class="proc-desc">Fios ultrafinos em leques de 5 unidades — volume intenso e marcante sem perder a leveza.</p><p class="proc-nota">✦ Preto</p><div class="proc-preco">Aplicação <span class="preco">R$ 180</span> · Manutenção <span class="preco">R$ 110</span> <em style="font-size:0.74rem;color:var(--text-dim)">(20 dias)</em></div></div>
+          <div class="proc-card aura"><img class="proc-img" src="imagens/fox-eyes.jpg" alt="Fox Eyes"><h3 class="proc-nome">Fox Eyes</h3><p class="proc-desc">Efeito alongado no canto externo, inspirado no olhar felino. Sensualidade e elegância em cada fio.</p><p class="proc-nota">✦ Preto ou marrom</p><div class="proc-preco">Aplicação <span class="preco">R$ 200</span> · Manutenção <span class="preco">R$ 120</span> <em style="font-size:0.74rem;color:var(--text-dim)">(20 dias)</em></div></div>
+          <div class="proc-card aura"><img class="proc-img" src="imagens/efeito-molhado.jpg" alt="Efeito Molhado"><h3 class="proc-nome">Efeito Molhado</h3><p class="proc-desc">Fios finos com pontas agrupadas que lembram gotas de água. Destaque com suavidade.</p><p class="proc-nota">✦ Preto</p><div class="proc-preco">Aplicação <span class="preco">R$ 190</span> · Manutenção <span class="preco">R$ 110</span> <em style="font-size:0.74rem;color:var(--text-dim)">(20 dias)</em></div></div>
+          <div class="proc-card aura"><img class="proc-img" src="imagens/efeito-ana.jpg" alt="Efeito Ana"><h3 class="proc-nome">Efeito Ana</h3><p class="proc-desc">Técnica exclusiva com fios marrons e distribuição suave — efeito romântico e super natural.</p><p class="proc-nota">✦ Marrom</p><div class="proc-preco">Aplicação <span class="preco">R$ 200</span> · Manutenção <span class="preco">R$ 115</span> <em style="font-size:0.74rem;color:var(--text-dim)">(20 dias)</em></div></div>
+          <div class="proc-card aura"><img class="proc-img" src="imagens/wet-wispy.jpg" alt="Wet Wispy"><h3 class="proc-nome">Wet Wispy</h3><p class="proc-desc">Leveza e textura combinadas, com fios estrategicamente posicionados para um acabamento delicado.</p><p class="proc-nota">✦ Preto</p><div class="proc-preco">Aplicação <span class="preco">R$ 200</span> · Manutenção <span class="preco">R$ 120</span> <em style="font-size:0.74rem;color:var(--text-dim)">(20 dias)</em></div></div>
+          <div class="proc-card aura"><img class="proc-img" src="imagens/volume-egípcio.jpg" alt="Volume Egípcio"><h3 class="proc-nome">Volume Egípcio</h3><p class="proc-desc">Aspecto leve com pontas agrupadas para quem quer destacar o olhar sem perder a suavidade.</p><p class="proc-nota">✦ Preto ou marrom</p><div class="proc-preco">Aplicação <span class="preco">R$ 175</span> · Manutenção <span class="preco">R$ 105</span> <em style="font-size:0.74rem;color:var(--text-dim)">(20 dias)</em></div></div>
+          <div class="proc-card aura"><img class="proc-img" src="imagens/sirena-marrom.jpg" alt="Sirena Marrom"><h3 class="proc-nome">Sirena Marrom</h3><p class="proc-desc">Olhar levemente alongado com cantos externos sutis e sofisticados.</p><div class="proc-preco"><span class="preco">R$ 110</span></div></div>
+          <div class="proc-card aura"><img class="proc-img" src="imagens/sirena-preto.jpg" alt="Sirena Preto"><h3 class="proc-nome">Sirena Preto</h3><p class="proc-desc">Alongamento gradual da metade ao canto externo — olhar sofisticado com toque de ousadia.</p><div class="proc-preco"><span class="preco">R$ 110</span></div></div>
+        </div>
+      </div>
+
+      <div class="categoria">
+        <h2 class="categoria-titulo">Sobrancelhas</h2>
+        <p class="categoria-subtitulo">Design & Tratamentos</p>
+        <div class="proc-grid">
+          <div class="proc-card"><img class="proc-img" src="imagens/design-sobrancelhas.jpg" alt="Design de Sobrancelhas"><h3 class="proc-nome">Design de Sobrancelhas</h3><p class="proc-desc">Técnicas precisas para definir e moldar o formato, realçando simetria e harmonia do rosto.</p><div class="proc-preco"><span class="preco">R$ 55</span></div></div>
+          <div class="proc-card"><img class="proc-img" src="imagens/design-coloracao.jpg" alt="Design com Coloração"><h3 class="proc-nome">Design com Coloração</h3><p class="proc-desc">Tintura específica para uniformizar a cor, destacando os fios para aparência mais harmônica.</p><div class="proc-preco"><span class="preco">R$ 65</span></div></div>
+          <div class="proc-card"><img class="proc-img" src="imagens/design-henna.jpg" alt="Design com Henna"><h3 class="proc-nome">Design com Henna</h3><p class="proc-desc">Henna para preencher falhas e realçar o formato com efeito definido e temporário.</p><p class="proc-nota">✦ Durabilidade até 15 dias</p><div class="proc-preco"><span class="preco">R$ 65</span></div></div>
+          <div class="proc-card"><img class="proc-img" src="imagens/brow-lamination.jpg" alt="Brow Lamination"><h3 class="proc-nome">Brow Lamination</h3><p class="proc-desc">Fixa, organiza e alinha os fios com volume, preenchimento e acabamento impecável.</p><p class="proc-nota">✦ Incluso design e coloração</p><div class="proc-preco"><span class="preco">R$ 165</span></div></div>
+        </div>
+      </div>
+
+      <div class="categoria">
+        <h2 class="categoria-titulo">Unhas</h2>
+        <p class="categoria-subtitulo">Nail Design</p>
+        <div class="proc-grid">
+          <div class="proc-card"><img class="proc-img" src="imagens/molde-f1.jpg" alt="Molde F1"><h3 class="proc-nome">Molde F1</h3><p class="proc-desc">Moldes para esculpir unhas com curvatura perfeita, acabamento uniforme e visual extremamente natural.</p><p class="proc-nota">✦ Incluso cutilagem e esmaltação comum</p><div class="proc-preco">Aplicação <span class="preco">R$ 130</span> · Manutenção <span class="preco">R$ 110</span> <em style="font-size:0.74rem;color:var(--text-dim)">(25 dias)</em></div></div>
+          <div class="proc-card"><img class="proc-img" src="imagens/fibra-vidro.jpg" alt="Alongamento Fibra de Vidro"><h3 class="proc-nome">Alongamento Fibra de Vidro</h3><p class="proc-desc">Fibras ultraleves para alongamento com resistência, acabamento natural e longa durabilidade.</p><p class="proc-nota">✦ Incluso cutilagem e esmaltação comum</p><div class="proc-preco">Aplicação <span class="preco">R$ 170</span> · Manutenção <span class="preco">R$ 120</span> <em style="font-size:0.74rem;color:var(--text-dim)">(25 dias)</em></div></div>
+          <div class="proc-card"><img class="proc-img" src="imagens/esmaltacao-gel.jpg" alt="Esmaltação em Gel"><h3 class="proc-nome">Esmaltação em Gel</h3><p class="proc-desc">Alta durabilidade, resistência e brilho que dura semanas.</p><div class="proc-preco"><span class="preco">R$ 70</span></div></div>
+          <div class="proc-card"><img class="proc-img" src="imagens/blindagem.jpg" alt="Blindagem"><h3 class="proc-nome">Blindagem</h3><p class="proc-desc">Camada protetora sobre as unhas naturais — mais durabilidade e prevenção de danos.</p><div class="proc-preco">Sem esmaltação <span class="preco">R$ 100</span> · Com esmaltação <span class="preco">R$ 140</span></div></div>
+          <div class="proc-card"><img class="proc-img" src="imagens/banho-gel.jpg" alt="Banho de Gel"><h3 class="proc-nome">Banho de Gel</h3><p class="proc-desc">Brilho intenso e duradouro, corrigindo imperfeições e garantindo mais resistência.</p><div class="proc-preco">Sem esmaltação <span class="preco">R$ 110</span> · Com esmaltação <span class="preco">R$ 150</span></div></div>
+          <div class="proc-card"><img class="proc-img" src="imagens/nail-art.jpg" alt="Nail Art"><h3 class="proc-nome">Nail Art</h3><p class="proc-desc">Desenhos, traços, pedrarias e efeitos personalizados. Cada unha como uma obra de arte.</p><div class="proc-preco">A partir de <span class="preco">R$ 80</span></div></div>
+          <div class="proc-card"><img class="proc-img" src="imagens/spa-pes.jpg" alt="Spa dos Pés"><h3 class="proc-nome">Spa dos Pés</h3><p class="proc-desc">Hidratação, esfoliação e massagem para renovar a pele e aliviar o cansaço dos pés.</p><div class="proc-preco"><span class="preco">R$ 50</span></div></div>
+        </div>
+      </div>
+
+      <div class="categoria">
+        <h2 class="categoria-titulo">Manicure & Pedicure</h2>
+        <p class="categoria-subtitulo">Cuidados essenciais</p>
+        <div class="proc-grid">
+          <div class="proc-card"><img class="proc-img" src="imagens/manicure.jpg" alt="Manicure"><h3 class="proc-nome">Manicure</h3><p class="proc-desc">Cuidados detalhados para unhas e cutículas das mãos — saúde, beleza e sofisticação.</p><div class="proc-preco"><span class="preco">R$ 35</span></div></div>
+          <div class="proc-card"><img class="proc-img" src="imagens/pedicure.jpg" alt="Pedicure"><h3 class="proc-nome">Pedicure</h3><p class="proc-desc">Cuidados completos para unhas e cutículas dos pés com hidratação e estética profissional.</p><div class="proc-preco"><span class="preco">R$ 40</span></div></div>
+        </div>
+      </div>
+
+      <div class="categoria">
+        <h2 class="categoria-titulo">Estética Facial e Corporal</h2>
+        <p class="categoria-subtitulo">Rejuvenescimento · Harmonização · Tratamentos</p>
+        <div class="proc-grid">
+          <div class="proc-card"><img class="proc-img" src="imagens/botox.jpg" alt="Botox"><h3 class="proc-nome">Botox</h3><p class="proc-desc">Toxina Botulínica que relaxa a musculatura, tratando rugas da testa, glabela, pés de galinha, sorriso gengival, bruxismo e muito mais. Resultados a partir do 3º dia, com duração de 3 a 6 meses.</p><p class="proc-nota">✦ Produtos: Dysport, Nabota e Xeomin</p><div class="proc-preco"><span class="preco">R$ 899,99</span> <em style="font-size:0.74rem;color:var(--text-dim)">· 3 regiões</em></div></div>
+
+          <div class="proc-card"><img class="proc-img" src="imagens/bioestimulador.jpg" alt="Bioestimulador de Colágeno"><h3 class="proc-nome">Bioestimulador de Colágeno</h3><p class="proc-desc">Estimula o próprio corpo a produzir novo colágeno, combatendo flacidez, celulite, estrias e sinais de envelhecimento. Pode ser aplicado no rosto, pescoço, mãos, braços, glúteos e abdômen.</p><p class="proc-nota">✦ Produtos: Sculptra, Radiesse, Elleva</p><div class="proc-preco"><span class="preco">R$ 1.749,99</span></div></div>
+
+          <div class="proc-card"><img class="proc-img" src="imagens/harmonizacao-mini.jpg" alt="Harmonização Mini"><h3 class="proc-nome">Harmonização Mini</h3><p class="proc-desc">Preenchimento com Ácido Hialurônico para realçar pontos estratégicos do rosto, volumizar e corrigir assimetrias. Resultado imediato com duração média de 1 ano.</p><p class="proc-nota">✦ Produtos: Restylane, Rennova, Croma, Belotero</p><div class="proc-preco"><span class="preco">R$ 949,99</span> <em style="font-size:0.74rem;color:var(--text-dim)">· 1ml</em></div></div>
+
+          <div class="proc-card"><img class="proc-img" src="imagens/rinomodelacao.jpg" alt="Rinomodelação"><h3 class="proc-nome">Rinomodelação</h3><p class="proc-desc">Correção e harmonização do nariz com Ácido Hialurônico, sem cirurgia. Suaviza imperfeições, eleva a ponta e melhora o perfil de forma natural e segura.</p><p class="proc-nota">✦ Preenchimento com Ácido Hialurônico</p><div class="proc-preco"><span class="preco">Consultar</span></div></div>
+
+          <div class="proc-card"><img class="proc-img" src="imagens/labios.jpg" alt="Lábios"><h3 class="proc-nome">Lábios</h3><p class="proc-desc">Volumização e definição dos lábios com Ácido Hialurônico. Trata também linhas ao redor da boca (código de barras) e hidrata profundamente. Resultado imediato e natural.</p><p class="proc-nota">✦ Reversível · Praticamente indolor</p><div class="proc-preco"><span class="preco">Consultar</span></div></div>
+
+          <div class="proc-card"><img class="proc-img" src="imagens/lavieen.jpg" alt="Lavieen"><h3 class="proc-nome">Lavieen</h3><p class="proc-desc">Procedimento inovador de rejuvenescimento que combina tecnologia e ativos para revitalizar a pele, melhorando textura, luminosidade e qualidade geral da pele.</p><p class="proc-nota">✦ Skinbooster avançado</p><div class="proc-preco"><span class="preco">R$ 499,99</span></div></div>
+
+          <div class="proc-card"><img class="proc-img" src="imagens/skinbooster.jpg" alt="Skinbooster"><h3 class="proc-nome">Skinbooster</h3><p class="proc-desc">Hidratação injetável profunda, mais potente que qualquer creme. Melhora linhas finas, cicatrizes de acne e ressecamento em rosto, lábios, pescoço, colo e mãos.</p><p class="proc-nota">✦ Protocolo de 3 sessões</p><div class="proc-preco"><span class="preco">R$ 499,99</span></div></div>
+
+          <div class="proc-card"><img class="proc-img" src="imagens/microagulhamento.jpg" alt="Microagulhamento"><h3 class="proc-nome">Microagulhamento</h3><p class="proc-desc">Técnica que estimula a produção de colágeno e elastina, melhorando cicatrizes de acne, manchas, poros dilatados e flacidez. Excelente custo-benefício.</p><p class="proc-nota">✦ Potencializa outros procedimentos</p><div class="proc-preco"><span class="preco">R$ 250,00</span> <em style="font-size:0.74rem;color:var(--text-dim)">· sessão / R$ 799,99 · 3 sessões</em></div></div>
+
+          <div class="proc-card"><img class="proc-img" src="imagens/enzimas-facial.jpg" alt="Enzimas Facial"><h3 class="proc-nome">Enzimas Facial</h3><p class="proc-desc">Aplicação de ativos enzimáticos para redução de gordura localizada facial, emagrecimento biofacial e melhora dos contornos do rosto. Rosto mais fino e definido.</p><p class="proc-nota">✦ Mínimo 3 sessões</p><div class="proc-preco"><span class="preco">R$ 799,99</span> <em style="font-size:0.74rem;color:var(--text-dim)">· 3 sessões</em></div></div>
+
+          <div class="proc-card"><img class="proc-img" src="imagens/ultraformer.jpg" alt="Ultraformer III"><h3 class="proc-nome">Ultraformer III</h3><p class="proc-desc">Tecnologia de ultrassom micro e macrofocado para flacidez facial e corporal, contorno do rosto, lifting, papada e tonificação muscular. Resultados visíveis logo após a sessão.</p><p class="proc-nota">✦ Sem necessidade de pós-operatório</p><div class="proc-preco"><span class="preco">R$ 1.200,00</span></div></div>
+
+          <div class="proc-card"><img class="proc-img" src="imagens/peeling.jpg" alt="Peeling Químico"><h3 class="proc-nome">Peeling Químico</h3><p class="proc-desc">Ácidos aplicados na pele para despigmentação de manchas, melhora da oleosidade, renovação celular e rejuvenescimento. Pele mais viçosa e iluminada.</p><p class="proc-nota">✦ Produtos: Retinóico, Gluconolactona, Jessner</p><div class="proc-preco"><span class="preco">R$ 399,00</span></div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="cta-bar">
+    <div class="cta-bar-inner">
+      <h2 class="cta-title">Gostou? <em>Agende agora</em></h2>
+      <p class="cta-sub">Entre em contato pelo WhatsApp e garanta seu horário.</p>
+      <a href="https://wa.me/5517988154960?text=Olá%20Maju!%20Gostaria%20de%20agendar%20um%20horário%20✨" target="_blank" class="btn-light">Agendar pelo WhatsApp</a>
+    </div>
+  </div>
+
+</div><!-- /page-servicos -->
+
+<script>
+  function goTo(page) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + page).classList.add('active');
+    window.scrollTo(0, 0);
+    document.getElementById('navLinks').classList.remove('open');
+  }
+
+  function scroll(id) {
+    setTimeout(() => {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }, 50);
+  }
+
+  document.getElementById('hamburger').addEventListener('click', () => {
+    document.getElementById('navLinks').classList.toggle('open');
+  });
+</script>
+</body>
+</html>
