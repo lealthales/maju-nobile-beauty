@@ -22,6 +22,7 @@
   }
   * { margin:0; padding:0; box-sizing:border-box; }
   html { scroll-behavior:smooth; }
+  section { scroll-margin-top: 68px; }
   body { background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif; font-weight:300; font-size:15px; line-height:1.75; }
 
   /* ── PAGES ── */
@@ -235,10 +236,10 @@
 <nav>
   <span class="nav-logo" onclick="goTo('home')">Maju Nobile</span>
   <ul class="nav-links" id="navLinks">
-    <li><a onclick="goTo('home');scroll('sobre')">Sobre</a></li>
+    <li><a onclick="goTo('home','sobre')">Sobre</a></li>
     <li><a onclick="goTo('servicos')">Serviços</a></li>
-    <li><a onclick="goTo('home');scroll('planos')">Planos</a></li>
-    <li><a onclick="goTo('home');scroll('politica')">Políticas</a></li>
+    <li><a onclick="goTo('home','planos')">Planos</a></li>
+    <li><a onclick="goTo('home','politica')">Políticas</a></li>
     <li><a href="https://wa.me/5517988154960?text=Olá%20Maju!%20Gostaria%20de%20agendar%20um%20horário%20✨" target="_blank" class="nav-cta">Agendar</a></li>
   </ul>
   <button class="nav-hamburger" id="hamburger" aria-label="Menu">
@@ -427,6 +428,7 @@
           <div class="proc-card aura"><img class="proc-img" src="imagens/volume-egípcio.jpg" alt="Volume Egípcio"><h3 class="proc-nome">Volume Egípcio</h3><p class="proc-desc">Aspecto leve com pontas agrupadas para quem quer destacar o olhar sem perder a suavidade.</p><p class="proc-nota">✦ Preto ou marrom</p><div class="proc-preco">Aplicação <span class="preco">R$ 175</span> · Manutenção <span class="preco">R$ 105</span> <em style="font-size:0.74rem;color:var(--text-dim)">(20 dias)</em></div></div>
           <div class="proc-card aura"><img class="proc-img" src="imagens/sirena-marrom.jpg" alt="Sirena Marrom"><h3 class="proc-nome">Sirena Marrom</h3><p class="proc-desc">Olhar levemente alongado com cantos externos sutis e sofisticados.</p><div class="proc-preco"><span class="preco">R$ 110</span></div></div>
           <div class="proc-card aura"><img class="proc-img" src="imagens/sirena-preto.jpg" alt="Sirena Preto"><h3 class="proc-nome">Sirena Preto</h3><p class="proc-desc">Alongamento gradual da metade ao canto externo — olhar sofisticado com toque de ousadia.</p><div class="proc-preco"><span class="preco">R$ 110</span></div></div>
+          <div class="proc-card aura"><img class="proc-img" src="imagens/efeito-aura.jpg" alt="Efeito Aura"><h3 class="proc-nome">Efeito Aura</h3><p class="proc-desc">Técnica exclusiva que cria um efeito luminoso e envolvente ao redor dos olhos, realçando o olhar com sofisticação e delicadeza únicos.</p><p class="proc-nota">✦ Exclusivo do studio</p><div class="proc-preco">Aplicação <span class="preco">R$ 200</span> · Manutenção <span class="preco">R$ 120</span> <em style="font-size:0.74rem;color:var(--text-dim)">(20 dias)</em></div></div>
         </div>
       </div>
 
@@ -506,18 +508,29 @@
 </div><!-- /page-servicos -->
 
 <script>
-  function goTo(page) {
+  function goTo(page, scrollId) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById('page-' + page).classList.add('active');
-    window.scrollTo(0, 0);
     document.getElementById('navLinks').classList.remove('open');
+    if (scrollId) {
+      setTimeout(() => {
+        const el = document.getElementById(scrollId);
+        if (el) {
+          const top = el.getBoundingClientRect().top + window.scrollY - 68;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }
+      }, 100);
+    } else {
+      window.scrollTo(0, 0);
+    }
   }
 
   function scroll(id) {
-    setTimeout(() => {
-      const el = document.getElementById(id);
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
-    }, 50);
+    const el = document.getElementById(id);
+    if (el) {
+      const top = el.getBoundingClientRect().top + window.scrollY - 68;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
   }
 
   document.getElementById('hamburger').addEventListener('click', () => {
